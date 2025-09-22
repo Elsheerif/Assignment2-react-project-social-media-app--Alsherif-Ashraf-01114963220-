@@ -4,62 +4,26 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { set, z } from 'zod';
 import { registerApi } from '../services/authservices';
-
-const schema = z.object({
-    name: z.string().min(3, { message: "Name must be at least 3 characters" })
-        .max(30, { message: "Name must be at most 30 characters" }),
-    email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(8, { message: "Password must be at least 8 characters" })
-        .max(30, { message: "Password must be at most 30 characters" })
-        .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-        .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-        .regex(/[0-9]/, { message: "Password must contain at least one number" })
-        .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
-    rePassword: z.string(),
-    dateOfBirth: z.string().refine((date) => {
-        const now = new Date();
-        const dob = new Date(date);
-        const age = now.getFullYear() - dob.getFullYear();
-        if (age > 18) {
-            return true;
-        }
-        if (age === 18) {
-            if (now.getMonth() > dob.getMonth()) {
-                return true;
-            }
-            if (now.getMonth() === dob.getMonth()) {
-                if (now.getDate() >= dob.getDate()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }, { message: "You must be at least 18 years old" }),
-    gender: z.enum(['male', 'female'], {
-        errorMap: () => ({ message: "Please select your gender" })
-    })
-})
-    .refine((data) => data.password === data.rePassword, {
-        message: "Passwords don't match",
-        path: ["rePassword"],
-    });
+import { registerschema } from '../schema/RegisterSchema';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
     const [isLoading, setisLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
-    const [sucssMsg, setsucssMsg] = useState("")
+    const navigate = useNavigate();
 
-    const { handleSubmit, register, formState: { errors } } = useForm({
+
+    const { handleSubmit, register, formState: { errors }, reset } = useForm({
         defaultValues: {
-            name: "",
-            email: "",
-            password: "",
-            rePassword: "",
-            dateOfBirth: "",
+            name: "Alsherif",
+            email: "sa9899006@gmail.com",
+            password: "shikoshikoW123#",
+            rePassword: "shikoshikoW123#",
+            dateOfBirth: "09/26/2000",
             gender: ""
         },
-        resolver: zodResolver(schema),
-        mode: "onChange"
+        resolver: zodResolver(registerschema),
+        mode: "onSubmit"
     });
 
     async function handleRegister(formData) {
@@ -68,13 +32,13 @@ export default function RegisterPage() {
         setisLoading(false);
         if (data.error) {
             setErrMsg(data.error);
-            set
         }
         else {
             setErrMsg("");
-            setsucssMsg(data.message)
+            setTimeout(() => {
+                navigate('/login')
+            }, 700);
         }
-        console.log(data);
 
     }
 
@@ -175,8 +139,6 @@ export default function RegisterPage() {
                     </Button>
 
                     {errMsg && <p className='text-sm bg-red-200 rounded-md p-2 text-red-800 text-center mt-0'>{errMsg}</p>}
-                    {sucssMsg && <p className='text-sm bg-green-200 rounded-md p-2 text-green-800 text-center mt-0'>{sucssMsg}</p>}
-
                 </div>
             </form>
         </div>
