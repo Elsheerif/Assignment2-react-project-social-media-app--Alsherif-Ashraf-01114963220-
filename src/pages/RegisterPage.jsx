@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { set, z } from 'zod';
 import { registerApi } from '../services/authservices';
 import { registerschema } from '../schema/RegisterSchema';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
     const [isLoading, setisLoading] = useState(false)
@@ -137,6 +137,9 @@ export default function RegisterPage() {
                     <Button isLoading={isLoading} type='submit' variant='bordered' color="secondary">
                         Register
                     </Button>
+                
+                                    <p>Already have an account? <Link to={"/login"} className="text-primary-500">Login now!</Link ></p>
+
 
                     {errMsg && <p className='text-sm bg-red-200 rounded-md p-2 text-red-800 text-center mt-0'>{errMsg}</p>}
                 </div>

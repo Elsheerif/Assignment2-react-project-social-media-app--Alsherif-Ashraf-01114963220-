@@ -7,7 +7,7 @@ export async function registerApi(formData) {
         return data;
     }
     catch (error) {
-        return error.response.data;
+        return error.response ? error.response.data : error.message;
     }
 }
 
@@ -17,6 +17,6 @@ export async function LoginApi(formData) {
         return data;
     }
     catch (error) {
-        return error.response.data;
+        return error.response ? error.response.data : error.message;
     }
 }

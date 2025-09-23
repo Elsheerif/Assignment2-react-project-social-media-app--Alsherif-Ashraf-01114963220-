@@ -1,15 +1,20 @@
 import { Button, Input, Select, SelectItem } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { set, z } from 'zod';
 import { LoginApi } from '../services/authservices';
 import { loginschema } from '../schema/LoginSchema';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { authContext } from '../contexts/AuthContext';
 
 export default function LoginPage() {
     const [isLoading, setisLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
     const [sucssMsg, setsucssMsg] = useState("")
+    const Navigate = useNavigate();
+    const { setIsLoggedIn } = useContext(authContext);
 
     const { handleSubmit, register, formState: { errors } } = useForm({
         defaultValues: {
@@ -24,13 +29,18 @@ export default function LoginPage() {
         setisLoading(true);
         const data = await LoginApi(formData);
         setisLoading(false);
+
         if (data.error) {
             setErrMsg(data.error);
         }
         else {
 
             setsucssMsg(data.message)
-            setErrMsg("");
+            
+            localStorage.setItem("token",data.token)
+            setIsLoggedIn(true);
+
+            Navigate('/')
         }
         console.log(data);
 
@@ -75,6 +85,8 @@ export default function LoginPage() {
                     <Button isLoading={isLoading} type='submit' variant='bordered' color="secondary">
                         Login
                     </Button>
+
+                    <p>U don't have an account? <Link to={"/register"} className="text-primary-500">create account now!</Link ></p>
 
                     {errMsg && <p className='text-sm bg-red-200 rounded-md p-2 text-red-800 text-center mt-0'>{errMsg}</p>}
                     {sucssMsg && <p className='text-sm bg-green-200 rounded-md p-2 text-green-800 text-center mt-0'>{sucssMsg}</p>}

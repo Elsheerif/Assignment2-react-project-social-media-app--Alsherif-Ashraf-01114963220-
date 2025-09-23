@@ -11,19 +11,21 @@ import LoginPage from './pages/LoginPage'
 import MainLayout from './layouts/MainLayout'
 import PostDetailsPage from './pages/PostDetailsPage'
 import FeedPage from './pages/FeedPage'
-
+import ProtecteddRoute from './ProtectedRoutes/ProtecteddRoute'
+import ProtectedAuthRoutes from './ProtectedRoutes/ProtectedAuthRoutes'
+import  AuthContextProvider  from './contexts/AuthContext'
 
 const router = createBrowserRouter([
   {
     path: '', element: <AuthLayout />, children: [
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
+      { path: '/login', element: <ProtectedAuthRoutes> <LoginPage /> </ProtectedAuthRoutes> },
+      { path: '/register', element: <ProtectedAuthRoutes> <RegisterPage /> </ProtectedAuthRoutes> },
 
     ]
   }
   , {
     path: '', element: <MainLayout />, children: [
-      { index: true, element: <FeedPage /> },
+      { index: true, element: <ProtecteddRoute> <FeedPage /> </ProtecteddRoute> },
       { path: 'post-details', element: <PostDetailsPage /> },
       { path: 'profile', element: <ProfilePage /> },
       { path: '*', element: <NotFoundPage /> },
