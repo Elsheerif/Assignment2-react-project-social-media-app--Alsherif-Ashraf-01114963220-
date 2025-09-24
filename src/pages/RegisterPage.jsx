@@ -47,8 +47,8 @@ export default function RegisterPage() {
 
     return (
         <form onSubmit={handleSubmit(submit)}>
-            <h1 className='text-center'>Register Page {counter}</h1>
-            <button type='button' onClick={() => setCounter(counter + 1)}>Increment</button>
+            <h1 className='text-center'>Register</h1>
+           
             <Input isInvalid={Boolean(errors.name?.message)} errorMessage={errors?.name?.message} variant='bordered' label="name" type="name" {...register('name')} />
             <Input isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email" type="email" {...register('email')} />
             <Input isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered' label="password" type="password" {...register('password')} />
@@ -58,7 +58,7 @@ export default function RegisterPage() {
                 <SelectItem key={"male"}>Male</SelectItem>
                 <SelectItem key={"female"}>Female</SelectItem>
             </Select>
-            <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">
+            <Button type='submit' isLoading={isLoading} color="secondary" variant="bordered">
                 Register
             </Button>
             {errMsg && <p className='text-center p-1 rounded bg-red-200 text-red-700 text-sm capitalize'>{errMsg} </p>}
