@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LoginSchema from '../Schemas/LoginSchema'
+import LoginSchema from '../schemas/LoginSchema'
 import { counterContext } from '../contexts/CounterContext'
 import { authContext } from '../contexts/AuthContext'
 
