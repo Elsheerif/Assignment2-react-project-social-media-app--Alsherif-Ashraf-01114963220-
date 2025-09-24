@@ -47,18 +47,18 @@ export default function RegisterPage() {
 
     return (
         <form onSubmit={handleSubmit(submit)}>
-            <h1 className='text-center'>Register</h1>
+            <h1 className='text-center text-[#BC62C2]'>Register</h1>
            
-            <Input isInvalid={Boolean(errors.name?.message)} errorMessage={errors?.name?.message} variant='bordered' label="name" color="secondary" type="name" {...register('name')} />
-            <Input isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email" color="secondary" type="email" {...register('email')} />
-            <Input isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered' color="secondary" label="password" type="password" {...register('password')} />
-            <Input isInvalid={Boolean(errors.rePassword?.message)} errorMessage={errors?.rePassword?.message} variant='bordered' color="secondary" label="Confirm Password" type="password" {...register('rePassword')} />
-            <Input isInvalid={Boolean(errors.dateOfBirth?.message)} errorMessage={errors?.dateOfBirth?.message} variant='bordered' color="secondary" label="Date Of Birth" defaultValue={new Date()} type="date" {...register('dateOfBirth')} />
-            <Select isInvalid={Boolean(errors.gender?.message)} errorMessage={errors?.gender?.message} variant='bordered' color="secondary" label="Gender" {...register('gender')}>
+            <Input color="secondary" isInvalid={Boolean(errors.name?.message)} errorMessage={errors?.name?.message} variant='bordered' label="name"  type="name" {...register('name')} />
+            <Input color="secondary" isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email"  type="email" {...register('email')} />
+            <Input color="secondary" isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered'  label="password" type="password" {...register('password')} />
+            <Input color="secondary" isInvalid={Boolean(errors.rePassword?.message)} errorMessage={errors?.rePassword?.message} variant='bordered'  label="Confirm Password" type="password" {...register('rePassword')} />
+            <Input color="secondary" isInvalid={Boolean(errors.dateOfBirth?.message)} errorMessage={errors?.dateOfBirth?.message} variant='bordered'  label="Date Of Birth" defaultValue={new Date()} type="date" {...register('dateOfBirth')} />
+            <Select color="secondary" isInvalid={Boolean(errors.gender?.message)} errorMessage={errors?.gender?.message} variant='bordered' label="Gender" {...register('gender')}>
                 <SelectItem key={"male"}>Male</SelectItem>
                 <SelectItem key={"female"}>Female</SelectItem>
             </Select>
-            <Button type='submit' isLoading={isLoading} color="secondary" variant="bordered">
+            <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">
                 Register
             </Button>
             {errMsg && <p className='text-center p-1 rounded bg-red-200 text-red-700 text-sm capitalize'>{errMsg} </p>}
