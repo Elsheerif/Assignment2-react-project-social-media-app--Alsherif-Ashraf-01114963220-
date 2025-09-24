@@ -13,7 +13,7 @@ import PostDetailsPage from './pages/PostDetailsPage'
 import FeedPage from './pages/FeedPage'
 import ProtectedRoute from './ProtectedRoutes/ProtectedRoute'
 import ProtectedAuthRoutes from './ProtectedRoutes/ProtectedAuthRoutes'
-import  AuthContextProvider  from './contexts/AuthContext'
+
 
 const router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   , {
     path: '', element: <MainLayout />, children: [
       { index: true, element: <ProtectedRoute> <FeedPage /> </ProtectedRoute> },
-      { path: 'post-details', element: <PostDetailsPage /> },
+      { path: 'PostDetailsPage/:id', element: <PostDetailsPage /> },
       { path: 'profile', element: <ProfilePage /> },
       { path: '*', element: <NotFoundPage /> },
 

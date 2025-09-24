@@ -9,69 +9,65 @@ import LoadingScreen from './LoadingScreen'
 export default function Feed() {
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-
   const navigate = useNavigate()
 
   async function getAllPosts() {
     setIsLoading(true)
     try {
       const data = await getAllPostsApi(1)
-      console.log("API Response:", data)
+      console.log('API Response:', data)
 
-      if (data?.message === "success") {
+      if (data?.message === 'success') {
         if (data.posts && data.posts.length > 0) {
-          // Sort newest first
-          const sortedPosts = [...data.posts].sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          )
-          setPosts(sortedPosts)
+
+          setPosts(data.posts.reverse())
         } else {
           setPosts([])
         }
       } else {
-        console.log("API Error:", data)
-        localStorage.removeItem("token")
+        console.log('API Error:', data)
+        localStorage.removeItem('token')
         addToast({
-          title: data?.error || "Authentication failed",
-          description: "Please login again",
+          title: data?.error || 'Authentication failed',
+          description: 'Please login again',
           timeout: 3000,
-          color: "danger",
+          color: 'danger',
         })
-        navigate("/auth/login")
+        navigate('/login')
         return
       }
     } catch (error) {
-      console.log("Network Error:", error)
+      console.log('Network Error:', error)
       addToast({
-        title: "Network Error",
-        description: "Failed to load posts. Please try again.",
+        title: 'Network Error',
+        description: 'Failed to load posts. Please try again.',
         timeout: 3000,
-        color: "danger",
+        color: 'danger',
       })
     }
     setIsLoading(false)
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    console.log("Token exists:", !!token)
+    const token = localStorage.getItem('token')
+    console.log('Token exists:', !!token)
     if (token) {
       getAllPosts()
     } else {
-      console.log("No token found, redirecting to login")
-      navigate("/auth/login")
+      console.log('No token found, redirecting to login')
+      navigate('/login')
     }
   }, [])
 
   return (
     <div className="max-w-3xl mx-auto grid gap-3">
-      <CreatePost getAllPosts={getAllPosts} />
+      <CreatePost getAllPosts={getAllPosts} setPosts={setPosts} />
       {isLoading ? (
         <LoadingScreen />
       ) : posts.length > 0 ? (
         posts.map((post) => (
           <Post
-            getAllPosts={getAllPosts}
+            callback={getAllPosts}
             post={post}
             key={post._id}
             commentsLimit={1}

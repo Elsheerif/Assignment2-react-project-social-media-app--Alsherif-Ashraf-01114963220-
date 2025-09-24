@@ -6,6 +6,8 @@ import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { CounterContextProvider } from './contexts/CounterContext.jsx';
 import AuthContextProvider from './contexts/AuthContext.jsx';
 
+
+
 createRoot(document.getElementById('root')).render(
 
   <StrictMode>

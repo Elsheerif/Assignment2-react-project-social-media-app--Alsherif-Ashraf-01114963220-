@@ -36,7 +36,7 @@ export default function RegisterPage() {
             setSuccessMsg(data.message)
             reset()
             setTimeout(() => {
-                navigate("/auth/login")
+                navigate("/login")
             }, 1000)
         } else if (data.error) {
             setErrMsg(data.error)

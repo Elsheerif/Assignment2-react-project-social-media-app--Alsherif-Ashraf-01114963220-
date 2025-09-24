@@ -30,10 +30,13 @@ export default function Navbar() {
     return (
         <NextUiNavbar disableAnimation isBordered>
             <NavbarContent className="flex gap-4" justify="center">
-                <NavbarBrand className='gap-1'>
-                    <img src={logo} className='w-10' alt="logo" />
-                    <p className="font-bold  text-[#BC62C2] text-2xl" >Echo</p>
+                <NavbarBrand >
+                    <Link to={"/"} className="flex flex-row items-center space-x-1">
+                        <img src={logo} className='w-10' alt="logo" />
+                        <p className="font-bold  text-[#BC62C2] text-2xl" >Echo</p>
+                    </Link>
                 </NavbarBrand>
+
             </NavbarContent>
 
             <NavbarContent justify="end">

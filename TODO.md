@@ -1,0 +1,1 @@
+- [ ] Remove the getAllPosts() call in CreatePost.jsx after optimistic update to keep new posts at the top immediately

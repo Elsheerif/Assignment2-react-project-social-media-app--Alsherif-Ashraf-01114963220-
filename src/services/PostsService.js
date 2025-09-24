@@ -3,23 +3,19 @@ import axios from "axios"
 const baseUrl = "https://linked-posts.routemisr.com/"
 
 export async function getAllPostsApi(page = 1) {
-
-
     try {
         const { data } = await axios.get(baseUrl + "posts", {
             headers: {
                 token: localStorage.getItem("token")
             },
             params: {
-                page
+                page: 42
             }
         })
         return data;
-
     } catch (error) {
         return error?.response?.data;
     }
-
 }
 
 export async function getSinglePostApi(postId) {

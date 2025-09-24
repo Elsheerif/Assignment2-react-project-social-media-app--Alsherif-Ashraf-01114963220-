@@ -8,11 +8,12 @@ import LoginSchema from '../Schemas/LoginSchema'
 import { counterContext } from '../contexts/CounterContext'
 import { authContext } from '../contexts/AuthContext'
 
+
+
 export default function LoginPage() {
     const [errMsg, setErrMsg] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
-
 
     const { counter } = useContext(counterContext)
     const { setIsLoggedIn } = useContext(authContext)
@@ -43,7 +44,7 @@ export default function LoginPage() {
 
     return (
         <form onSubmit={handleSubmit(submit)}>
-            <h1 className='text-center'>Login Page {counter}</h1>
+            <h1 className='text-center'>Login Page</h1>
             <Input isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email" type="email" {...register('email')} />
             <Input isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered' label="password" type="password" {...register('password')} />
             <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">

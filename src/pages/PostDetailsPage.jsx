@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import Post from '../components/Post';
 import LoadingScreen from './LoadingScreen';
 
-export default function PostDetails() {
+
+export default function PostDetailsPage() {
 
     const { id } = useParams()
     const [post, setPost] = useState(null)
