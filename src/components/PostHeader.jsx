@@ -6,8 +6,8 @@ export default function PostHeader({ avatar, header, subHeader }) {
         <div className="flex">
             <img onError={(e) => e.target.src = userImagePlaceholder}  className=" rounded-full w-10 h-10 mr-3" src={avatar} />
             <div>
-                <h3 className="text-md font-semibold text-secondary-500">{header}</h3>
-                <p className="text-xs text-secondary-500">{subHeader}</p>
+                <h3 className="text-md font-semibold ">{header}</h3>
+                <p className="text-xs ">{subHeader}</p>
             </div>
         </div>
     )
