@@ -1,57 +1,64 @@
-import React, { useContext } from 'react'
-import { Navbar as HeroUiNavbar, NavbarBrand , NavbarItem, Link, Button } from "@heroui/react";
-import { useNavigate } from 'react-router-dom';
-import { CounterContext } from '../contexts/CounterContext';
-import { authContext } from '../contexts/AuthContext';
-import logo from '../assets/logo.png'
+import {
+    Navbar as NextUiNavbar,
+    NavbarBrand,
+    NavbarMenuToggle,
+    NavbarMenu,
+    NavbarMenuItem,
+    NavbarContent,
+    NavbarItem,
+    Button,
+} from "@heroui/react";
+import logo from "../assets/logo.png";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { counterContext } from "../contexts/CounterContext";
+import { authContext } from "../contexts/AuthContext";
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  const { counter } = useContext(CounterContext)
-  const { isLoggedIn, setIsLoggedIn } = useContext(authContext)
+    const navigate = useNavigate()
 
-  function handleSignOut() {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate('/login');
-  }
-  return (
-    <HeroUiNavbar>
-      <NavbarBrand className='gap-1'>
-        <img src={logo} className='w-10' alt="logo" />
-        <p className="font-bold  text-[#BC62C2] text-2xl" >Echo{counter}</p>
-      </NavbarBrand>
-
-      {
-
-        isLoggedIn ?
-
-          <NavbarItem>
-            <Button onPress={handleSignOut} as={Link} color="danger" href="#" variant="flat">
-              Sign Out
-            </Button>
-          </NavbarItem>
-          :
-          <>
-
-            <NavbarItem className="hidden lg:flex">
-              <Button onPress={() => navigate('/login')} as={Link} color="default"  variant="flat">
-                login
-              </Button>
-            </NavbarItem>
-            <NavbarItem>
-              <Button onPress={() => navigate('/register')} as={Link} color="primary"  variant="flat">
-                Sign Up
-              </Button>
-            </NavbarItem>
+    const { counter } = useContext(counterContext)
+    const { setIsLoggedIn, isLoggedIn } = useContext(authContext)
 
 
+    function logOut() {
+        localStorage.removeItem("token")
+        setIsLoggedIn(false)
+        navigate("/login")
+    }
 
-          </>
+    return (
+        <NextUiNavbar disableAnimation isBordered>
+            <NavbarContent className="flex gap-4" justify="center">
+                <NavbarBrand className='gap-1'>
+                    <img src={logo} className='w-10' alt="logo" />
+                    <p className="font-bold  text-[#BC62C2] text-2xl" >Echo</p>
+                </NavbarBrand>
+            </NavbarContent>
 
-      }
-
-
-    </HeroUiNavbar>
-  )
+            <NavbarContent justify="end">
+                {
+                    isLoggedIn ?
+                        <NavbarItem>
+                            <Button onPress={logOut} color="danger" variant="flat">
+                                Logout
+                            </Button>
+                        </NavbarItem>
+                        :
+                        <>
+                            <NavbarItem className="flex cursor-pointer">
+                                <Button onPress={() => navigate("/login")} color="default" variant="flat">
+                                    Login
+                                </Button>
+                            </NavbarItem>
+                            <NavbarItem>
+                                <Button onPress={() => navigate("/register")} color="warning" variant="flat">
+                                    Sign Up
+                                </Button>
+                            </NavbarItem>
+                        </>
+                }
+            </NavbarContent>
+        </NextUiNavbar>
+    );
 }

@@ -1,149 +1,68 @@
 import { Button, Input, Select, SelectItem } from '@heroui/react'
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react'
+import { registerApi } from '../services/AuthService'
 import { useForm } from 'react-hook-form'
-import { set, z } from 'zod';
-import { registerApi } from '../services/authservices';
-import { registerschema } from '../schema/RegisterSchema';
-import { Link, useNavigate } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod'
+import registerSchema from '../schemas/RegisterSchema'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { counterContext } from '../contexts/CounterContext'
 
 export default function RegisterPage() {
-    const [isLoading, setisLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
-    const navigate = useNavigate();
+    const [successMsg, setSuccessMsg] = useState("")
+    const navigate = useNavigate()
 
+    const { counter, setCounter } = useContext(counterContext)
 
     const { handleSubmit, register, formState: { errors }, reset } = useForm({
         defaultValues: {
             name: "Alsherif",
             email: "sa9899006@gmail.com",
-            password: "shikoshikoW123#",
-            rePassword: "shikoshikoW123#",
-            dateOfBirth: "09/26/2000",
-            gender: ""
+            password: "Mohamed@123",
+            rePassword: "Mohamed@123",
+            dateOfBirth: "12-5-2000",
+            gender: "male"
         },
-        resolver: zodResolver(registerschema),
-        mode: "onSubmit"
+        resolver: zodResolver(registerSchema)
     });
 
-    async function handleRegister(formData) {
-        // setisLoading(true);
-        const data = await registerApi(formData);
-        setisLoading(false);
-        if (data.error) {
-            setErrMsg(data.error);
-        }
-        else {
-            setErrMsg("");
+    async function submit(formData) {
+        setErrMsg("")
+        setSuccessMsg("")
+        setIsLoading(true)
+        const data = await registerApi(formData)
+        if (data.message) {
+            setSuccessMsg(data.message)
+            reset()
             setTimeout(() => {
-                navigate('/login')
-            }, 700);
+                navigate("/auth/login")
+            }, 1000)
+        } else if (data.error) {
+            setErrMsg(data.error)
         }
-
+        setIsLoading(false)
     }
 
+
     return (
-        <div className="max-w-xl py-10 mx-auto my-10 shadow-xl rounded-xl px-4">
-            <form onSubmit={handleSubmit(handleRegister)} className="flex flex-col gap-6">
-                <div className="flex flex-col gap-6">
-                    <h1 className='text-center text-2xl font-bold text-gray-800'>Register</h1>
-
-                    {/* Name Field */}
-                    <div className="flex flex-col gap-1">
-                        <Input
-                            variant='bordered'
-                            color="secondary"
-                            label="Name"
-                            type="text"
-                            {...register('name')}
-                            isInvalid={!!errors.name}
-                        />
-                        {errors.name && (
-                            <p className="text-red-500 text-sm">{errors.name.message}</p>
-                        )}
-                    </div>
-
-                    {/* Email Field */}
-                    <div className="flex flex-col gap-1">
-                        <Input
-                            variant='bordered'
-                            color="secondary"
-                            label="Email"
-                            type="email"
-                            {...register('email')}
-                            isInvalid={!!errors.email}
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm">{errors.email.message}</p>
-                        )}
-                    </div>
-
-                    {/* Password Field */}
-                    <div className="flex flex-col gap-1">
-                        <Input
-                            variant='bordered'
-                            color="secondary"
-                            label="Password"
-                            type="password"
-                            {...register('password')}
-                            isInvalid={!!errors.password}
-                        />
-                        {errors.password && (
-                            <p className="text-red-500 text-sm">{errors.password.message}</p>
-                        )}
-                    </div>
-
-                    {/* Confirm Password Field */}
-                    <div className="flex flex-col gap-1">
-                        <Input
-                            variant='bordered'
-                            color="secondary"
-                            label="Confirm Password"
-                            type="password"
-                            {...register('rePassword')}
-                            isInvalid={!!errors.rePassword}
-                        />
-                        {errors.rePassword && (
-                            <p className="text-red-500 text-sm">{errors.rePassword.message}</p>
-                        )}
-                    </div>
-
-                    {/* Date of Birth Field */}
-                    <div className="flex flex-col gap-1">
-                        <Input
-                            variant='bordered'
-                            color="secondary"
-                            label="Date of Birth"
-                            type="date"
-                            {...register('dateOfBirth')}
-                            isInvalid={!!errors.dateOfBirth}
-                        />
-                        {errors.dateOfBirth && (
-                            <p className="text-red-500 text-sm">{errors.dateOfBirth.message}</p>
-                        )}
-                    </div>
-
-                    {/* Gender Select */}
-                    <div className="flex flex-col gap-1">
-                        <Select label="what is your gender?"  {...register('gender')}>
-                            <SelectItem key={"male"}>Male</SelectItem>
-                            <SelectItem key={"female"}>Female</SelectItem>
-                        </Select>
-                        {errors.gender && (
-                            <p className="text-red-500 text-sm">{errors.gender.message}</p>
-                        )}
-                    </div>
-
-                    <Button isLoading={isLoading} type='submit' variant='bordered' color="secondary">
-                        Register
-                    </Button>
-                
-                                    <p>Already have an account? <Link to={"/login"} className="text-primary-500">Login now!</Link ></p>
-
-
-                    {errMsg && <p className='text-sm bg-red-200 rounded-md p-2 text-red-800 text-center mt-0'>{errMsg}</p>}
-                </div>
-            </form>
-        </div>
-    );
+        <form onSubmit={handleSubmit(submit)}>
+            <h1 className='text-center'>Register Page {counter}</h1>
+            <button type='button' onClick={() => setCounter(counter + 1)}>Increment</button>
+            <Input isInvalid={Boolean(errors.name?.message)} errorMessage={errors?.name?.message} variant='bordered' label="name" type="name" {...register('name')} />
+            <Input isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email" type="email" {...register('email')} />
+            <Input isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered' label="password" type="password" {...register('password')} />
+            <Input isInvalid={Boolean(errors.rePassword?.message)} errorMessage={errors?.rePassword?.message} variant='bordered' label="Confirm Password" type="password" {...register('rePassword')} />
+            <Input isInvalid={Boolean(errors.dateOfBirth?.message)} errorMessage={errors?.dateOfBirth?.message} variant='bordered' label="Date Of Birth" defaultValue={new Date()} type="date" {...register('dateOfBirth')} />
+            <Select isInvalid={Boolean(errors.gender?.message)} errorMessage={errors?.gender?.message} variant='bordered' label="Gender" {...register('gender')}>
+                <SelectItem key={"male"}>Male</SelectItem>
+                <SelectItem key={"female"}>Female</SelectItem>
+            </Select>
+            <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">
+                Register
+            </Button>
+            {errMsg && <p className='text-center p-1 rounded bg-red-200 text-red-700 text-sm capitalize'>{errMsg} </p>}
+            {successMsg && <p className='text-center p-1 rounded bg-green-200 text-green-700 text-sm capitalize'>{successMsg} </p>}
+        </form>
+    )
 }

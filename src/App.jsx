@@ -11,7 +11,7 @@ import LoginPage from './pages/LoginPage'
 import MainLayout from './layouts/MainLayout'
 import PostDetailsPage from './pages/PostDetailsPage'
 import FeedPage from './pages/FeedPage'
-import ProtecteddRoute from './ProtectedRoutes/ProtecteddRoute'
+import ProtectedRoute from './ProtectedRoutes/ProtectedRoute'
 import ProtectedAuthRoutes from './ProtectedRoutes/ProtectedAuthRoutes'
 import  AuthContextProvider  from './contexts/AuthContext'
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   }
   , {
     path: '', element: <MainLayout />, children: [
-      { index: true, element: <ProtecteddRoute> <FeedPage /> </ProtecteddRoute> },
+      { index: true, element: <ProtectedRoute> <FeedPage /> </ProtectedRoute> },
       { path: 'post-details', element: <PostDetailsPage /> },
       { path: 'profile', element: <ProfilePage /> },
       { path: '*', element: <NotFoundPage /> },
