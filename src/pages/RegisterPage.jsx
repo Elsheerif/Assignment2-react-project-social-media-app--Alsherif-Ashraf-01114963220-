@@ -58,7 +58,7 @@ export default function RegisterPage() {
                 <SelectItem key={"male"}>Male</SelectItem>
                 <SelectItem key={"female"}>Female</SelectItem>
             </Select>
-            <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">
+            <Button type='submit' isLoading={isLoading} className='bg-[#BC62C2] text-white'>
                 Register
             </Button>
             {errMsg && <p className='text-center p-1 rounded bg-red-200 text-red-700 text-sm capitalize'>{errMsg} </p>}
