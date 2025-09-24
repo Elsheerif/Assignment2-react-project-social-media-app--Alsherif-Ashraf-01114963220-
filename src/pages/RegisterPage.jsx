@@ -17,12 +17,12 @@ export default function RegisterPage() {
 
     const { handleSubmit, register, formState: { errors }, reset } = useForm({
         defaultValues: {
-            name: "Alsherif",
-            email: "sa9899006@gmail.com",
-            password: "Mohamed@123",
-            rePassword: "Mohamed@123",
-            dateOfBirth: "12-5-2000",
-            gender: "male"
+            name: "",
+            email: "",
+            password: "",
+            rePassword: "",
+            dateOfBirth: "",
+            gender: ""
         },
         resolver: zodResolver(registerSchema)
     });
