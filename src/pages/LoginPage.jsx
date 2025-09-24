@@ -47,7 +47,7 @@ export default function LoginPage() {
             <h1 className='text-center text-[#BC62C2]'>Login</h1>
             <Input isInvalid={Boolean(errors.email?.message)} errorMessage={errors?.email?.message} variant='bordered' label="email" color="secondary" type="email" {...register('email')} />
             <Input isInvalid={Boolean(errors.password?.message)} errorMessage={errors?.password?.message} variant='bordered' color="secondary" label="password" type="password" {...register('password')} />
-            <Button type='submit' isLoading={isLoading} color="primary" variant="bordered">
+            <Button type='submit' isLoading={isLoading} className='bg-[#BC62C2] text-white'>
                 Login
             </Button>
             {errMsg && <p className='text-center p-1 rounded bg-red-200 text-red-700 text-sm capitalize'>{errMsg} </p>}
